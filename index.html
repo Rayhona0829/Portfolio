@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rayxona G'aniyeva | UI/UX & Frontend Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfeff',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            purple: '#6366f1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* DARK MODE STYLES */
+        html.dark body {
+            background-color: #030712;
+            color: #f3f4f6;
+        }
+        html.dark .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        html.dark .glass-nav {
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        html.dark .text-muted {
+            color: #9ca3af;
+        }
+        html.dark .input-bg {
+            background-color: #111827;
+            border-color: #374151;
+            color: #ffffff;
+        }
+
+        /* LIGHT MODE STYLES (FULL OVERHAUL) */
+        html.light body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        html.light .glass-card {
+            background: #ffffff;
+            backdrop-filter: blur(16px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        html.light .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        html.light .text-muted {
+            color: #475569;
+        }
+        html.light .input-bg {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        /* GRADIENTS & GLOWS */
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-effect {
+            box-shadow: 0 0 35px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #06b6d4;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-cyan-500 selection:text-white">
+
+    <!-- Background Dynamic Glows -->
+    <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-50 w-full px-4 sm:px-8 py-4">
+        <div class="max-w-7xl mx-auto glass-nav rounded-2xl px-6 py-3.5 flex justify-between items-center transition-all">
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-extrabold tracking-tight flex items-center gap-2">
+                <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md">R</span>
+                <span>Rayxona<span class="text-cyan-500">.</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-sm">
+                <a href="#about" class="hover:text-cyan-500 transition-colors" data-i18n="nav_about">Haqimda</a>
+                <a href="#skills" class="hover:text-cyan-500 transition-colors" data-i18n="nav_skills">Ko'nikmalar</a>
+                <a href="#portfolio" class="hover:text-cyan-500 transition-colors" data-i18n="nav_portfolio">Portfoliolar</a>
+                <a href="#experience" class="hover:text-cyan-500 transition-colors" data-i18n="nav_exp">Tajriba</a>
+                <a href="#contact" class="hover:text-cyan-500 transition-colors" data-i18n="nav_contact">Bog'lanish</a>
+            </nav>
+
+            <!-- Toggles: Theme & Language -->
+            <div class="flex items-center gap-3">
+                <!-- Language Toggle Button -->
+                <button id="langToggle" class="px-3.5 py-2 text-xs font-bold rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-500 transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="langLabel">UZ</span>
+                </button>
+
+                <!-- Light/Dark Mode Switcher -->
+                <button id="themeToggle" class="w-10 h-10 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-700 dark:text-cyan-400 hover:scale-105 active:scale-95 transition shadow-sm" title="Rejimni o'zgartirish">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-xl border border-slate-300 dark:border-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobileMenu" class="hidden md:hidden max-w-7xl mx-auto mt-2 glass-card rounded-2xl p-6 flex-col gap-4 text-center font-semibold">
+            <a href="#about" class="mobile-link py-2 hover:text-cyan-500" data-i18n="nav_about">Haqimda</a>
+            <a href="#skills" class="mobile-link py-2 hover:text-cyan-500" data-i18n="nav_skills">Ko'nikmalar</a>
+            <a href="#portfolio" class="mobile-link py-2 hover:text-cyan-500" data-i18n="nav_portfolio">Portfoliolar</a>
+            <a href="#experience" class="mobile-link py-2 hover:text-cyan-500" data-i18n="nav_exp">Tajriba</a>
+            <a href="#contact" class="mobile-link py-2 hover:text-cyan-500" data-i18n="nav_contact">Bog'lanish</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 space-y-28 py-10 relative z-10">
+
+        <!-- HERO SECTION -->
+        <section id="about" class="min-h-[75vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-4">
+            <div class="flex-1 space-y-6 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs sm:text-sm font-semibold">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-ping"></span>
+                    <span data-i18n="hero_status">Aktiv loyihalar va ish uchun ochiqman</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+                    <span data-i18n="hero_hi">Salom, men</span> <br>
+                    <span class="gradient-text">Rayxona G'aniyeva</span>
+                </h1>
+                
+                <p class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed font-normal" data-i18n="hero_desc">
+                    UI/UX dizayner va Frontend dasturchiman. Foydalanuvchilar uchun qulay, chiroyli hamda zamonaviy raqamli mahsulotlar va veb-saytlar yarataman.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-4">
+                    <a href="#contact" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105 transition transform active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span data-i18n="hero_btn_contact">Bog'lanish</span>
+                    </a>
+                    <a href="https://t.me/ganiyevaR_29" target="_blank" class="px-8 py-3.5 rounded-xl glass-card font-bold hover:bg-cyan-500/10 transition hover:scale-105 active:scale-95 flex items-center gap-2 text-cyan-500 border border-cyan-500/30">
+                        <i class="fa-brands fa-telegram text-lg"></i>
+                        <span>Telegram</span>
+                    </a>
+                </div>
+
+                <!-- Stats Counters -->
+                <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-cyan-500">2+ <span data-i18n="stat_year">Yil</span></h3>
+                        <p class="text-xs sm:text-sm text-muted font-medium" data-i18n="stat_uiux">UI/UX Tajriba</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-indigo-500">6+ <span data-i18n="stat_month">Oy</span></h3>
+                        <p class="text-xs sm:text-sm text-muted font-medium" data-i18n="stat_frontend">Frontend Tajriba</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-500">100+</h3>
+                        <p class="text-xs sm:text-sm text-muted font-medium" data-i18n="stat_students">O'quvchilar</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE IMAGE DISPLAY -->
+            <div class="flex-1 flex justify-center items-center relative">
+                <div class="relative w-72 h-88 sm:w-80 sm:h-96 rounded-3xl overflow-hidden glass-card p-3 border-2 border-cyan-500/40 glow-effect">
+                    <!-- Profile Image with Local Path and High-Quality Laptop Girl Fallback -->
+                    <img id="profileImg" src="" onerror="this.onerror=null; this.src=Image alt="Rayxona G'aniyeva - UI/UX & Frontend Developer" class="w-full h-full object-cover rounded-2xl hover:scale-105 transition duration-500">
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute bottom-5 left-5 right-5 p-3.5 glass-card rounded-xl flex items-center gap-3 backdrop-blur-md shadow-lg">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-500 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-muted font-semibold" data-i18n="profile_badge_title">Hozirgi faoliyat</p>
+                            <p class="text-xs font-bold" data-i18n="profile_badge_desc">"Birlashamiz" markazi o'qituvchisi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="space-y-10">
+            <div class="text-center space-y-3">
+                <h2 class="text-3xl sm:text-4xl font-black tracking-tight" data-i18n="skills_title">Mening Ko'nikmalarim</h2>
+                <p class="text-muted max-w-xl mx-auto font-normal text-sm sm:text-base" data-i18n="skills_subtitle">Loyiha g'oyasidan tortib uni mukammal kodga aylantirishgacha bo'lgan bilimlarim</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- UI/UX Skills Card -->
+                <div class="glass-card p-8 rounded-3xl space-y-6 hover:border-cyan-500/50 transition duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold" data-i18n="skills_uiux_title">UI/UX Dizayn (2 Yil)</h3>
+                            <p class="text-xs text-muted" data-i18n="skills_uiux_desc">Figma, Prototype, Wireframing, User Research</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1.5">
+                                <span>Figma & Design Systems</span>
+                                <span class="text-cyan-500">92%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2.5 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1.5">
+                                <span>Wireframing & UX Research</span>
+                                <span class="text-cyan-500">88%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2.5 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1.5">
+                                <span>Mobile & Web App UI</span>
+                                <span class="text-cyan-500">90%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2.5 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frontend Skills Card -->
+                <div class="glass-card p-8 rounded-3xl space-y-6 hover:border-indigo-500/50 transition duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-500 flex items-center justify-center text-2xl font-bold">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold" data-i18n="skills_front_title">Frontend Dasturlash (6 Oy)</h3>
+                            <p class="text-xs text-muted" data-i18n="skills_front_desc">HTML5, CSS3, JavaScript, Tailwind CSS</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1.5">
+                                <span>HTML5 & CSS3 / Tailwind CSS</span>
+                                <span class="text-indigo-500">95%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2.5 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1.5">
+                                <span>JavaScript (ES6+)</span>
+                                <span class="text-indigo-500">78%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2.5 rounded-full" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1.5">
+                                <span>Responsive / Adaptive Web Layouts</span>
+                                <span class="text-indigo-500">92%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2.5 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO SECTION -->
+        <section id="portfolio" class="space-y-10">
+            <div class="text-center space-y-3">
+                <h2 class="text-3xl sm:text-4xl font-black tracking-tight" data-i18n="port_title">So'nggi Loyihalar</h2>
+                <p class="text-muted max-w-xl mx-auto font-normal text-sm sm:text-base" data-i18n="port_subtitle">UI/UX va Frontend yo'nalishlarida qilgan sara ishlarim</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Project Card 1 -->
+                <div class="glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="h-48 bg-gradient-to-br from-cyan-600 to-blue-700 p-6 flex items-end justify-between relative">
+                        <span class="px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-xs font-semibold text-white">UI/UX & Web</span>
+                        <i class="fa-solid fa-graduation-cap text-5xl text-white/30"></i>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="text-xl font-bold" data-i18n="proj1_title">Ta'lim Platformasi Dizayni</h3>
+                        <p class="text-muted text-xs sm:text-sm leading-relaxed" data-i18n="proj1_desc">O'quvchilar hamda o'qituvchilar uchun intuitiv va qulay interfeysga ega LMS tizimi.</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="text-xs px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-500 font-semibold">Figma</span>
+                            <span class="text-xs px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-500 font-semibold">HTML/CSS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="h-48 bg-gradient-to-br from-indigo-600 to-purple-700 p-6 flex items-end justify-between relative">
+                        <span class="px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-xs font-semibold text-white">Mobile UI/UX</span>
+                        <i class="fa-solid fa-cart-shopping text-5xl text-white/30"></i>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="text-xl font-bold" data-i18n="proj2_title">E-Commerce Mobile App</h3>
+                        <p class="text-muted text-xs sm:text-sm leading-relaxed" data-i18n="proj2_desc">Onlayn do'kon va to'lov tizimlariga ega zamonaviy va qulay mobil ilova prototipi.</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="text-xs px-3 py-1 rounded-lg bg-indigo-500/10 text-indigo-500 font-semibold">Figma</span>
+                            <span class="text-xs px-3 py-1 rounded-lg bg-indigo-500/10 text-indigo-500 font-semibold">UX Research</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="glass-card rounded-3xl overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="h-48 bg-gradient-to-br from-emerald-600 to-teal-700 p-6 flex items-end justify-between relative">
+                        <span class="px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-xs font-semibold text-white">Frontend Web</span>
+                        <i class="fa-solid fa-code text-5xl text-white/30"></i>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="text-xl font-bold" data-i18n="proj3_title">Biznes Landing Page</h3>
+                        <p class="text-muted text-xs sm:text-sm leading-relaxed" data-i18n="proj3_desc">Tezkor yuklanuvchi, barcha qurilmalarga moslashuvchan korporativ veb-sayt.</p>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="text-xs px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 font-semibold">Tailwind CSS</span>
+                            <span class="text-xs px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 font-semibold">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE TIMELINE SECTION -->
+        <section id="experience" class="space-y-10 max-w-4xl mx-auto">
+            <div class="text-center space-y-3">
+                <h2 class="text-3xl sm:text-4xl font-black tracking-tight" data-i18n="exp_title">Ish va Tajriba Yo'lim</h2>
+                <p class="text-muted max-w-xl mx-auto font-normal text-sm sm:text-base" data-i18n="exp_subtitle">Doimiy rivojlanish va o'sishdagi bosqichlarim</p>
+            </div>
+
+            <div class="relative border-l-2 border-cyan-500/40 ml-4 md:ml-32 space-y-8 pl-6 md:pl-8">
+                <!-- Timeline Item 1 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-cyan-500 border-4 border-slate-100 dark:border-slate-950 group-hover:scale-125 transition"></div>
+                    <div class="glass-card p-6 rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-cyan-500 uppercase tracking-wider" data-i18n="exp1_badge">Hozirda</span>
+                        <h3 class="text-xl font-bold" data-i18n="exp1_role">Kompyuter Savodxonligi O'qituvchisi</h3>
+                        <p class="text-xs text-cyan-600 dark:text-cyan-400 font-semibold" data-i18n="exp1_center">"Birlashamiz" O'quv Markazi • Farg'ona</p>
+                        <p class="text-sm text-muted leading-relaxed pt-2" data-i18n="exp1_desc">Yoshlar hamda havaskorlarga kompyuter asoslari, raqamli savodxonlik va texnologiyalardan chuqurlashtirilgan dars berib kelmoqdaman.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-indigo-500 border-4 border-slate-100 dark:border-slate-950 group-hover:scale-125 transition"></div>
+                    <div class="glass-card p-6 rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">6 Oydan beri</span>
+                        <h3 class="text-xl font-bold" data-i18n="exp2_role">Frontend Dasturchi</h3>
+                        <p class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">Freelance & Amaliyot</p>
+                        <p class="text-sm text-muted leading-relaxed pt-2" data-i18n="exp2_desc">Zamonaviy va interaktiv veb-saytlar maketlarini kodlash, moslashuvchan (responsive) va tezkor interfeyslar yaratish.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative group">
+                    <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-slate-100 dark:border-slate-950 group-hover:scale-125 transition"></div>
+                    <div class="glass-card p-6 rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider">2 Yildan beri</span>
+                        <h3 class="text-xl font-bold" data-i18n="exp3_role">UI/UX Dizayner</h3>
+                        <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Freelance & Proyektlar</p>
+                        <p class="text-sm text-muted leading-relaxed pt-2" data-i18n="exp3_desc">Veb va mobil ilovalar interfeysini loyihalash, foydalanuvchi tajribasini (UX) tadqiq qilish hamda Figma prototiplari yaratish.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="glass-card rounded-3xl p-8 sm:p-12 space-y-8 relative overflow-hidden">
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="space-y-6">
+                    <h2 class="text-3xl sm:text-4xl font-black tracking-tight" data-i18n="contact_title">Loyiha bormi? Birgalikda ishlaymiz!</h2>
+                    <p class="text-muted leading-relaxed text-sm sm:text-base" data-i18n="contact_subtitle">Sizning g'oyalaringizni zamonaviy dizayn va sifatli kod orqali haqiqatga aylantirishga tayyorman.</p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+                            <div class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted font-medium" data-i18n="contact_address_label">Manzil</p>
+                                <p class="text-sm font-bold">Farg'ona shahri, O'zbekiston</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+                            <div class="w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted font-medium" data-i18n="contact_phone_label">Telefon Raqam</p>
+                                <a href="tel:+998333021012" class="text-sm font-bold hover:text-cyan-500 transition">+998 33 302-10-12</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+                            <div class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-lg">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-muted font-medium">Telegram</p>
+                                <a href="https://t.me/ganiyevaR_29" target="_blank" class="text-sm font-bold hover:text-cyan-500 transition">@ganiyevaR_29</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form id="contactForm" class="space-y-4 glass-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <div>
+                        <label class="block text-xs font-bold mb-1.5" data-i18n="form_name">Ismingiz</label>
+                        <input type="text" required class="w-full px-4 py-3 rounded-xl input-bg border focus:border-cyan-500 focus:outline-none text-sm transition" placeholder="Ismingizni kiriting">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1.5" data-i18n="form_phone">Telefon yoki Telegram</label>
+                        <input type="text" required class="w-full px-4 py-3 rounded-xl input-bg border focus:border-cyan-500 focus:outline-none text-sm transition" placeholder="+998 33 ... / @username">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1.5" data-i18n="form_message">Xabaringiz</label>
+                        <textarea rows="3" required class="w-full px-4 py-3 rounded-xl input-bg border focus:border-cyan-500 focus:outline-none text-sm transition" placeholder="Loyiha haqida qisqacha..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold shadow-md hover:shadow-cyan-500/30 transition hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                        <span data-i18n="form_btn">Xabarni Yuborish</span>
+                    </button>
+                    <div id="formStatus" class="hidden text-center text-xs text-emerald-500 pt-2 font-bold"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-8 text-center text-xs text-muted relative z-10">
+        <p>© <span id="year"></span> Rayxona G'aniyeva. Barcha huquqlar himoyalangan.</p>
+    </footer>
+
+    <!-- JAVASCRIPT translation & state logic -->
+    <script>
+        // Language Dictionary
+        const translations = {
+            uz: {
+                nav_about: "Haqimda",
+                nav_skills: "Ko'nikmalar",
+                nav_portfolio: "Portfoliolar",
+                nav_exp: "Tajriba",
+                nav_contact: "Bog'lanish",
+                hero_status: "Aktiv loyihalar va ish uchun ochiqman",
+                hero_hi: "Salom, men",
+                hero_desc: "UI/UX dizayner va Frontend dasturchiman. Foydalanuvchilar uchun qulay, chiroyli hamda zamonaviy raqamli mahsulotlar va veb-saytlar yarataman.",
+                hero_btn_contact: "Bog'lanish",
+                stat_year: "Yil",
+                stat_uiux: "UI/UX Tajriba",
+                stat_month: "Oy",
+                stat_frontend: "Frontend Tajriba",
+                stat_students: "O'quvchilar",
+                profile_badge_title: "Hozirgi faoliyat",
+                profile_badge_desc: '"Birlashamiz" markazi o\'qituvchisi',
+                skills_title: "Mening Ko'nikmalarim",
+                skills_subtitle: "Loyiha g'oyasidan tortib uni mukammal kodga aylantirishgacha bo'lgan bilimlarim",
+                skills_uiux_title: "UI/UX Dizayn (2 Yil)",
+                skills_uiux_desc: "Figma, Prototype, Wireframing, User Research",
+                skills_front_title: "Frontend Dasturlash (6 Oy)",
+                skills_front_desc: "HTML5, CSS3, JavaScript, Tailwind CSS",
+                port_title: "So'nggi Loyihalar",
+                port_subtitle: "UI/UX va Frontend yo'nalishlarida qilgan sara ishlarim",
+                proj1_title: "Ta'lim Platformasi Dizayni",
+                proj1_desc: "O'quvchilar hamda o'qituvchilar uchun intuitiv va qulay interfeysga ega LMS tizimi.",
+                proj2_title: "E-Commerce Mobile App",
+                proj2_desc: "Onlayn do'kon va to'lov tizimlariga ega zamonaviy va qulay mobil ilova prototipi.",
+                proj3_title: "Biznes Landing Page",
+                proj3_desc: "Tezkor yuklanuvchi, barcha qurilmalarga moslashuvchan korporativ veb-sayt.",
+                exp_title: "Ish va Tajriba Yo'lim",
+                exp_subtitle: "Doimiy rivojlanish va o'sishdagi bosqichlarim",
+                exp1_badge: "Hozirda",
+                exp1_role: "Kompyuter Savodxonligi O'qituvchisi",
+                exp1_center: '"Birlashamiz" O\'quv Markazi • Farg\'ona',
+                exp1_desc: "Yoshlar hamda havaskorlarga kompyuter asoslari, raqamli savodxonlik va texnologiyalardan chuqurlashtirilgan dars berib kelmoqdaman.",
+                exp2_role: "Frontend Dasturchi",
+                exp2_desc: "Zamonaviy va interaktiv veb-saytlar maketlarini kodlash, moslashuvchan (responsive) va tezkor interfeyslar yaratish.",
+                exp3_role: "UI/UX Dizayner",
+                exp3_desc: "Veb va mobil ilovalar interfeysini loyihalash, foydalanuvchi tajribasini (UX) tadqiq qilish hamda Figma prototiplari yaratish.",
+                contact_title: "Loyiha bormi? Birgalikda ishlaymiz!",
+                contact_subtitle: "Sizning g'oyalaringizni zamonaviy dizayn va sifatli kod orqali haqiqatga aylantirishga tayyorman.",
+                contact_address_label: "Manzil",
+                contact_phone_label: "Telefon Raqam",
+                form_name: "Ismingiz",
+                form_phone: "Telefon yoki Telegram",
+                form_message: "Xabaringiz",
+                form_btn: "Xabarni Yuborish"
+            },
+            en: {
+                nav_about: "About",
+                nav_skills: "Skills",
+                nav_portfolio: "Portfolio",
+                nav_exp: "Experience",
+                nav_contact: "Contact",
+                hero_status: "Open for new projects & opportunities",
+                hero_hi: "Hello, I am",
+                hero_desc: "UI/UX Designer and Frontend Developer. I craft intuitive, aesthetic, and modern digital experiences and web applications.",
+                hero_btn_contact: "Get in Touch",
+                stat_year: "Years",
+                stat_uiux: "UI/UX Experience",
+                stat_month: "Months",
+                stat_frontend: "Frontend Experience",
+                stat_students: "Students Taught",
+                profile_badge_title: "Current Role",
+                profile_badge_desc: 'Instructor at "Birlashamiz" Center',
+                skills_title: "My Skills & Expertise",
+                skills_subtitle: "Knowledge base for transforming ideas into functional user interfaces",
+                skills_uiux_title: "UI/UX Design (2 Years)",
+                skills_uiux_desc: "Figma, Prototyping, Wireframing, User Research",
+                skills_front_title: "Frontend Development (6 Months)",
+                skills_front_desc: "HTML5, CSS3, JavaScript, Tailwind CSS",
+                port_title: "Recent Projects",
+                port_subtitle: "Selected works combining UI/UX design and frontend coding",
+                proj1_title: "Educational Platform Design",
+                proj1_desc: "Modern LMS system featuring an intuitive user interface for students and teachers.",
+                proj2_title: "E-Commerce Mobile App",
+                proj2_desc: "Mobile store prototype with streamlined payment flows and product catalogs.",
+                proj3_title: "Business Landing Page",
+                proj3_desc: "Fast-loading, fully responsive corporate landing webpage.",
+                exp_title: "Experience & Journey",
+                exp_subtitle: "Milestones in my continuous professional growth",
+                exp1_badge: "Present",
+                exp1_role: "Computer Literacy Instructor",
+                exp1_center: '"Birlashamiz" Learning Center • Fergana',
+                exp1_desc: "Teaching youth and beginners computer basics, digital skills, and technology foundations.",
+                exp2_role: "Frontend Developer",
+                exp2_desc: "Coding modern web layouts, building fast and adaptive user interfaces.",
+                exp3_role: "UI/UX Designer",
+                exp3_desc: "Designing web and mobile app interfaces, UX research, and interactive Figma prototypes.",
+                contact_title: "Have a project? Let's work together!",
+                contact_subtitle: "Ready to turn your vision into reality through modern design and quality code.",
+                contact_address_label: "Location",
+                contact_phone_label: "Phone Number",
+                form_name: "Your Name",
+                form_phone: "Phone or Telegram",
+                form_message: "Your Message",
+                form_btn: "Send Message"
+            }
+        };
+
+        let currentLang = 'uz';
+
+        // Toggle Language
+        const langToggleBtn = document.getElementById('langToggle');
+        const langLabel = document.getElementById('langLabel');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'uz' ? 'en' : 'uz';
+            langLabel.textContent = currentLang.toUpperCase();
+            updateLanguage();
+        });
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        // Toggle Theme (Dark / Light)
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            });
+        });
+
+        // Form Submission
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formStatus.textContent = currentLang === 'uz' ? "Rahmat! Xabaringiz yuborildi." : "Thank you! Your message has been sent.";
+            formStatus.classList.remove('hidden');
+            contactForm.reset();
+            setTimeout(() => {
+                formStatus.classList.add('hidden');
+            }, 4000);
+        });
+
+        // Current Year in Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
